@@ -3,29 +3,30 @@ import { UsersService } from './users.service';
 import {dataCreate} from './users.data';
 
 @Controller('/users')
-export class UsersController{
+export class UsersController{  
     constructor(
         private dataBase: UsersService,
     ) {}
 
-    @Get(":id")
-    async getGetMethod(@Param('id') id: string){
-        return await this.dataBase.getData(id);
+    @Get()
+    async getGetMethod(){
+        return await this.dataBase.getData();
     }
 
     @Post()
     getPostMethod(@Body() data: dataCreate){
-        return this.dataBase.create(data);
+        return this.dataBase.createAccount(data);
     }
 
-    @Put(':id')
-    getUpdateMethod(@Param('id') id:string, @Body() data: dataCreate){
-        return this.dataBase.updateData(id, data);
-    }
 
-    @Delete(':id')
-    getDeleteMethod(@Param('id') id:string){
-        return this.dataBase.getDeleteMethod(id);
-    }
+    // @Put(':id')
+    // getUpdateMethod(@Param('id') id:string, @Body() data: dataCreate){
+    //     return this.dataBase.updateData(id, data);
+    // }
+
+    // @Delete(':id')
+    // getDeleteMethod(@Param('id') id:string){
+    //     return this.dataBase.getDeleteMethod(id);  
+    // }
 }
 

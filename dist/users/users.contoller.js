@@ -20,24 +20,17 @@ let UsersController = class UsersController {
     constructor(dataBase) {
         this.dataBase = dataBase;
     }
-    async getGetMethod(id) {
-        return await this.dataBase.getData(id);
+    async getGetMethod() {
+        return await this.dataBase.getData();
     }
     getPostMethod(data) {
-        return this.dataBase.create(data);
-    }
-    getUpdateMethod(id, data) {
-        return this.dataBase.updateData(id, data);
-    }
-    getDeleteMethod(id) {
-        return this.dataBase.getDeleteMethod(id);
+        return this.dataBase.createAccount(data);
     }
 };
 __decorate([
-    (0, common_1.Get)(":id"),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)(),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "getGetMethod", null);
 __decorate([
@@ -47,21 +40,6 @@ __decorate([
     __metadata("design:paramtypes", [users_data_1.dataCreate]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "getPostMethod", null);
-__decorate([
-    (0, common_1.Put)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, users_data_1.dataCreate]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "getUpdateMethod", null);
-__decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "getDeleteMethod", null);
 UsersController = __decorate([
     (0, common_1.Controller)('/users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])

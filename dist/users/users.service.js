@@ -21,21 +21,11 @@ let UsersService = class UsersService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
     }
-    async create(data) {
-        const user = this.usersRepository.create(data);
-        await this.usersRepository.save(data);
-        return user;
+    async getData() {
+        return await this.usersRepository.find();
     }
-    async getData(data) {
-        return await this.usersRepository.findOne({ where: { id: data } });
-    }
-    async updateData(id, data) {
-        await this.usersRepository.update({ id }, data);
-        return this.usersRepository.findOne({ where: { id: id } });
-    }
-    async getDeleteMethod(id) {
-        await this.usersRepository.delete({ id });
-        return this.usersRepository.findOne({ where: { id: id } });
+    async createAccount(data) {
+        await this.usersRepository.create(data);
     }
 };
 UsersService = __decorate([
