@@ -1,32 +1,41 @@
-import {Controller, Get, Post, Put, Delete, Body, Param,} from "@nestjs/common";
+import { Controller, Post, Body, BadRequestException } from "@nestjs/common";
 import { UsersService } from './users.service';
-import {dataCreate} from './users.data';
+import { dataCreate } from './users.data';
+import {JwtService} from "@nestjs/jwt";
+import * as bcrypt from 'bcrypt';
+
 
 @Controller('/users')
 export class UsersController{  
     constructor(
-        private dataBase: UsersService,
+        private userService: UsersService,
+        private jwtService: JwtService
     ) {}
 
-    @Get()
-    async getGetMethod(){
-        return await this.dataBase.getData();
-    }
-
-    @Post()
+    @Post('/registration')
     getPostMethod(@Body() data: dataCreate){
-        return this.dataBase.createAccount(data);
+        return this.userService.createAccount(data)
     }
 
+    @Post('/signin')
+    async getSignInMethod(@Body('username') username: string,
+                    @Body('password') password: string
+    ){
 
-    // @Put(':id')
-    // getUpdateMethod(@Param('id') id:string, @Body() data: dataCreate){
-    //     return this.dataBase.updateData(id, data);
-    // }
+        const user = await this.userService.findAccount({username: username})
+        if (!user) {
+            throw new BadRequestException('invalid credentials');
+        }
 
-    // @Delete(':id')
-    // getDeleteMethod(@Param('id') id:string){
-    //     return this.dataBase.getDeleteMethod(id);  
-    // }
+        if (await bcrypt.compare(password, user.password)) {
+            throw new BadRequestException('password is a problem');
+        }
+
+        const jwt = await this.jwtService.signAsync({data: user.username});
+
+        // response.cookie('jwt', jwt, {httpOnly: true});
+    return jwt
+    }
+
 }
 

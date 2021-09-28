@@ -21,11 +21,18 @@ let UsersService = class UsersService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
     }
-    async getData() {
-        return await this.usersRepository.find();
-    }
     async createAccount(data) {
-        await this.usersRepository.create(data);
+        const user = new users_entity_1.User();
+        const addData = async () => {
+            user.username = data.username;
+            user.password = data.password;
+            await (0, typeorm_1.getManager)().save(user);
+        };
+        return addData();
+    }
+    async findAccount(data) {
+        const user = await this.usersRepository.findOne(data);
+        return user;
     }
 };
 UsersService = __decorate([

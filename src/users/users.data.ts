@@ -1,9 +1,10 @@
 
 export class dataCreate{
+    constructor() {
+    }
     id: number;
 
-    firstName: string;
-    lastName: string;
-    isActive: boolean;
-    something: boolean;
+    username: string;
+    password: string;
+
 }

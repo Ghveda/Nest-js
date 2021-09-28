@@ -14,6 +14,7 @@ const users_module_1 = require("./users/users.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const users_entity_1 = require("./users/users.entity");
 const config_1 = require("@nestjs/config");
+const jwt_1 = require("@nestjs/jwt");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -34,6 +35,10 @@ AppModule = __decorate([
                 entities: [
                     users_entity_1.User
                 ]
+            }),
+            jwt_1.JwtModule.register({
+                secret: 'secret',
+                signOptions: { expiresIn: '1d' }
             }),
             users_module_1.UsersModule,
         ],

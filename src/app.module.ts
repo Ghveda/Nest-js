@@ -5,7 +5,7 @@ import {UsersModule} from "./users/users.module";
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {User} from './users/users.entity';
 import { ConfigModule } from '@nestjs/config';
-import { RegisteredModule } from './signin/signin.module';
+import { JwtModule } from '@nestjs/jwt';
 
 
 @Module({
@@ -26,9 +26,10 @@ import { RegisteredModule } from './signin/signin.module';
             User
           ]
       }),
+      JwtModule.register({
+          secret: 'secret',
+          signOptions: {expiresIn: '1d'}}),
       UsersModule,
-      // RegisteredModule
-
   ],
   controllers: [AppController],
   providers: [AppService],
