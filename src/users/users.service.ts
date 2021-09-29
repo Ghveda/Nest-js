@@ -27,4 +27,9 @@ export class UsersService{
     return user;
     }
 
+    async getAllUsers(){
+        const users = await this.usersRepository.find()
+        return users
+    }
+
 }

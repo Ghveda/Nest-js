@@ -13,8 +13,12 @@ export class UsersController{
     ) {}
 
     @Post('/registration')
-    getPostMethod(@Body() data: dataCreate){
-        return this.userService.createAccount(data)
+    async getPostMethod(@Body() data: dataCreate){
+        await this.userService.createAccount(data)
+        const user = await this.userService.findAccount({username: data.username})
+
+        const jwt = await this.jwtService.signAsync({data: user.username})
+        return jwt
     }
 
     @Post('/signin')
@@ -33,9 +37,13 @@ export class UsersController{
 
         const jwt = await this.jwtService.signAsync({data: user.username});
 
-        // response.cookie('jwt', jwt, {httpOnly: true});
     return jwt
     }
 
+    @Post('/allUsers')
+    async getAll(){
+        const users = this.userService.getAllUsers();
+        return users
+    }
 }
 
