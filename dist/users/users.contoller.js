@@ -23,8 +23,11 @@ let UsersController = class UsersController {
         this.userService = userService;
         this.jwtService = jwtService;
     }
-    getPostMethod(data) {
-        return this.userService.createAccount(data);
+    async getPostMethod(data) {
+        await this.userService.createAccount(data);
+        const user = await this.userService.findAccount({ username: data.username });
+        const jwt = await this.jwtService.signAsync({ data: user.username });
+        return jwt;
     }
     async getSignInMethod(username, password) {
         const user = await this.userService.findAccount({ username: username });
@@ -37,13 +40,17 @@ let UsersController = class UsersController {
         const jwt = await this.jwtService.signAsync({ data: user.username });
         return jwt;
     }
+    getAll() {
+        const users = this.userService.getAllUsers();
+        return users;
+    }
 };
 __decorate([
     (0, common_1.Post)('/registration'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [users_data_1.dataCreate]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], UsersController.prototype, "getPostMethod", null);
 __decorate([
     (0, common_1.Post)('/signin'),
@@ -53,6 +60,12 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "getSignInMethod", null);
+__decorate([
+    (0, common_1.Post)('/allUsers'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "getAll", null);
 UsersController = __decorate([
     (0, common_1.Controller)('/users'),
     __metadata("design:paramtypes", [users_service_1.UsersService,

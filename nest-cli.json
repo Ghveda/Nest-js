@@ -1,4 +1,16 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "src",
+  "projects": {
+    "users": {
+      "type": "application",
+      "root": "src/users",
+      "sourceRoot": "src/users"
+   },
+    "posts": {
+      "type": "application",
+      "root": "src/posts",
+      "sourceRoot": "src/posts"
+  }}
+
 }

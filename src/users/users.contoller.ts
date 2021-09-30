@@ -1,7 +1,7 @@
 import { Controller, Post, Body, BadRequestException } from "@nestjs/common";
 import { UsersService } from './users.service';
 import { dataCreate } from './users.data';
-import {JwtService} from "@nestjs/jwt";
+import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from 'bcrypt';
 
 
@@ -41,7 +41,7 @@ export class UsersController{
     }
 
     @Post('/allUsers')
-    async getAll(){
+    getAll(){
         const users = this.userService.getAllUsers();
         return users
     }

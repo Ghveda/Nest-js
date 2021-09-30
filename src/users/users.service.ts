@@ -11,7 +11,7 @@ export class UsersService{
         @InjectRepository(User) private usersRepository: Repository<User>) {
     }
 
-    async createAccount(data){
+     createAccount(data){
         const user =  new User();
         const addData = async () =>{
             user.username = data.username;

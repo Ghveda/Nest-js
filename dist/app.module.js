@@ -15,6 +15,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const users_entity_1 = require("./users/users.entity");
 const config_1 = require("@nestjs/config");
 const jwt_1 = require("@nestjs/jwt");
+const posts_module_1 = require("./posts/posts.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -41,6 +42,7 @@ AppModule = __decorate([
                 signOptions: { expiresIn: '1d' }
             }),
             users_module_1.UsersModule,
+            posts_module_1.PostsModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

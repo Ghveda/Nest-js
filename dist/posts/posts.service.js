@@ -12,37 +12,33 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsersService = void 0;
+exports.PostsService = void 0;
 const common_1 = require("@nestjs/common");
-const users_entity_1 = require("./users.entity");
-const typeorm_1 = require("typeorm");
-const typeorm_2 = require("@nestjs/typeorm");
-let UsersService = class UsersService {
-    constructor(usersRepository) {
-        this.usersRepository = usersRepository;
+const typeorm_1 = require("@nestjs/typeorm");
+const posts_entity_1 = require("./posts.entity");
+const typeorm_2 = require("typeorm");
+let PostsService = class PostsService {
+    constructor(postsData) {
+        this.postsData = postsData;
     }
-    createAccount(data) {
-        const user = new users_entity_1.User();
-        const addData = async () => {
-            user.username = data.username;
-            user.password = data.password;
-            await (0, typeorm_1.getManager)().save(user);
+    async createPostsService(data) {
+        const post = new posts_entity_1.Posts();
+        const createPost = async () => {
+            post.username = data.username;
+            post.post = data.post;
+            await (0, typeorm_2.getManager)().save(post);
         };
-        return addData();
+        return createPost();
     }
-    async findAccount(data) {
-        const user = await this.usersRepository.findOne(data);
-        return user;
-    }
-    async getAllUsers() {
-        const users = await this.usersRepository.find();
-        return users;
+    async getAllData() {
+        const data = await this.postsData.find();
+        return data;
     }
 };
-UsersService = __decorate([
+PostsService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_2.InjectRepository)(users_entity_1.User)),
-    __metadata("design:paramtypes", [typeorm_1.Repository])
-], UsersService);
-exports.UsersService = UsersService;
-//# sourceMappingURL=users.service.js.map
+    __param(0, (0, typeorm_1.InjectRepository)(posts_entity_1.Posts)),
+    __metadata("design:paramtypes", [typeorm_2.Repository])
+], PostsService);
+exports.PostsService = PostsService;
+//# sourceMappingURL=posts.service.js.map
