@@ -22,4 +22,20 @@ export class PostsController {
     async getData(){
         return await this.postService.getAllData()
     }
+
+    @Post('/delete')
+    async deleteData(@Body('id')id: number){
+        console.log(id);
+        return await this.postService.deleteSomeData(id);
+    }
+
+    @Post('/update')
+    async updateData(
+        @Body('id')id: number,
+        @Body('data')data: string
+    ){
+        return await this.postService.updateData(id,data);
+    }
+
+
 }

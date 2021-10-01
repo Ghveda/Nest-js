@@ -23,4 +23,18 @@ export class PostsService {
         const data = await this.postsData.find();
         return data
     }
+
+    async deleteSomeData(id){
+        await this.postsData.delete(id);
+        return 'Deleted';
+    }
+
+    async updateData(id, data){
+        const getData = await this.postsData.findOne(id);
+        console.log(getData)
+        getData.post = data;
+        await this.postsData.save(getData)
+        return 'updated'
+    }
+
 }

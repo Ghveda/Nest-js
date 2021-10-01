@@ -45,5 +45,6 @@ export class UsersController{
         const users = this.userService.getAllUsers();
         return users
     }
+
 }
 
