@@ -5,4 +5,5 @@ export declare class PostsService {
     constructor(postsData: Repository<Posts>);
     createPostsService(data: any): Promise<void>;
     getAllData(): Promise<Posts[]>;
+    deleteSomeData(id: any): Promise<string>;
 }

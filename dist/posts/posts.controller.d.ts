@@ -4,4 +4,5 @@ export declare class PostsController {
     constructor(postService: PostsService);
     createPost(username: string, post: string): Promise<void>;
     getData(): Promise<import("./posts.entity").Posts[]>;
+    deleteData(id: number): Promise<string>;
 }

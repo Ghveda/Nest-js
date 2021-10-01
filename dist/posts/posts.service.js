@@ -34,6 +34,11 @@ let PostsService = class PostsService {
         const data = await this.postsData.find();
         return data;
     }
+    async deleteSomeData(id) {
+        console.log(id);
+        await this.postsData.delete(id);
+        return 'Deleted';
+    }
 };
 PostsService = __decorate([
     (0, common_1.Injectable)(),
