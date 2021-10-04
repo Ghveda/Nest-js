@@ -1,10 +1,5 @@
 
-export class dataCreate{
-    constructor() {
-    }
-    id: number;
-
+export class userData{
     username: string;
     password: string;
-
 }

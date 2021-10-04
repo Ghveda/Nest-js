@@ -6,10 +6,10 @@ import {getManager, Repository} from "typeorm";
 @Injectable()
 export class PostsService {
     constructor(
-        @InjectRepository(Posts) private postsData: Repository<Posts>
+        @InjectRepository(Posts) private postsEntity: Repository<Posts>
     ) {}
 
-    async createPostsService(data){
+    async createPosts(data){
         const post = new Posts();
         const createPost = async ()=>{
             post.username = data.username;
@@ -19,30 +19,20 @@ export class PostsService {
         return createPost()
     }
 
-    async getAllData(){
-        const data = await this.postsData.find();
+    async getAll(){
+        const data = await this.postsEntity.find();
         return data
     }
 
-    async deleteSomeData(id){
-        await this.postsData.delete(id);
+    async deletePost(id){
+        await this.postsEntity.delete(id);
         return 'Deleted';
     }
 
-    async updateData(id, data){
-        const getData = await this.postsData.findOne(id);
-        await this.postsData.save({
-            id: id,
-            username: getData.username,
-            post: data
-        })
-        // // getData.post = data
-        // await this.postsData.update(getData.post, data)
-        // // await getManager().save(getData)
-        // // console.log(getData)
-        // // console.log(data)
-        // await this.postsData.save(getData)
-        return 'updated'
+    async updatePost(id, data){
+        const post = await this.postsEntity.findOne(id);
+        post.post = data;
+        return await this.postsEntity.save(post)
     }
 
 }

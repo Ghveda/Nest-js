@@ -1,6 +1,6 @@
 import { Controller, Post, Body, BadRequestException } from "@nestjs/common";
 import { UsersService } from './users.service';
-import { dataCreate } from './users.data';
+import { userData } from './users.data';
 import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from 'bcrypt';
 
@@ -13,25 +13,28 @@ export class UsersController{
     ) {}
 
     @Post('/registration')
-    async getPostMethod(@Body() data: dataCreate){
-        await this.userService.createAccount(data)
-        const user = await this.userService.findAccount({username: data.username})
+    async registration(@Body() data: userData){
+        await this.userService.createAccount({
+            username: data.username,
+            password: await bcrypt.hash(data.password, 10)
+        })
 
+        const user = await this.userService.findAccount({username: data.username})
         const jwt = await this.jwtService.signAsync({data: user.username})
+
         return jwt
     }
 
-    @Post('/signin')
-    async getSignInMethod(@Body('username') username: string,
-                    @Body('password') password: string
-    ){
 
-        const user = await this.userService.findAccount({username: username})
+    @Post('/signin')
+    async login(@Body() data: userData
+    ){
+        const user = await this.userService.findAccount({username: data.username})
         if (!user) {
             throw new BadRequestException('invalid credentials');
         }
 
-        if (await bcrypt.compare(password, user.password)) {
+        if (await bcrypt.compare(await bcrypt.hash(data.password,10), user.password)) {
             throw new BadRequestException('password is a problem');
         }
 
@@ -40,11 +43,11 @@ export class UsersController{
     return jwt
     }
 
+
     @Post('/allUsers')
     getAll(){
         const users = this.userService.getAllUsers();
         return users
     }
-
 }
 

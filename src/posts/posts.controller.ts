@@ -12,7 +12,7 @@ export class PostsController {
         @Body('username')username: string,
         @Body('post')post: string
     ){
-        const data = await this.postService.createPostsService(
+        const data = await this.postService.createPosts(
             {username: username, post: post}
         )
     return data
@@ -20,13 +20,13 @@ export class PostsController {
 
     @Post('/data')
     async getData(){
-        return await this.postService.getAllData()
+        return await this.postService.getAll()
     }
 
     @Post('/delete')
     async deleteData(@Body('id')id: number){
         console.log(id);
-        return await this.postService.deleteSomeData(id);
+        return await this.postService.deletePost(id);
     }
 
     @Post('/update')
@@ -34,7 +34,7 @@ export class PostsController {
         @Body('id')id: number,
         @Body('data')data: string
     ){
-        return await this.postService.updateData(id,data);
+        return await this.postService.updatePost(id,data);
     }
 
 
