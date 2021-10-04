@@ -30,6 +30,9 @@ let PostsController = class PostsController {
         console.log(id);
         return await this.postService.deleteSomeData(id);
     }
+    async updateData(id, data) {
+        return await this.postService.updateData(id, data);
+    }
 };
 __decorate([
     (0, common_1.Post)('/create'),
@@ -52,6 +55,14 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], PostsController.prototype, "deleteData", null);
+__decorate([
+    (0, common_1.Post)('/update'),
+    __param(0, (0, common_1.Body)('id')),
+    __param(1, (0, common_1.Body)('data')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, String]),
+    __metadata("design:returntype", Promise)
+], PostsController.prototype, "updateData", null);
 PostsController = __decorate([
     (0, common_1.Controller)('/posts'),
     __metadata("design:paramtypes", [posts_service_1.PostsService])

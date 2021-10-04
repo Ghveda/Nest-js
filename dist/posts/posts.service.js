@@ -35,9 +35,14 @@ let PostsService = class PostsService {
         return data;
     }
     async deleteSomeData(id) {
-        console.log(id);
         await this.postsData.delete(id);
         return 'Deleted';
+    }
+    async updateData(id, data) {
+        const getData = await this.postsData.findOne(id);
+        console.log(getData);
+        getData.post = data;
+        console.log(data);
     }
 };
 PostsService = __decorate([

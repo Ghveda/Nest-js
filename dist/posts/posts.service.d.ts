@@ -6,4 +6,5 @@ export declare class PostsService {
     createPostsService(data: any): Promise<void>;
     getAllData(): Promise<Posts[]>;
     deleteSomeData(id: any): Promise<string>;
+    updateData(id: any, data: any): Promise<void>;
 }

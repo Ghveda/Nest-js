@@ -31,9 +31,17 @@ export class PostsService {
 
     async updateData(id, data){
         const getData = await this.postsData.findOne(id);
-        console.log(getData)
-        getData.post = data;
-        await this.postsData.save(getData)
+        await this.postsData.save({
+            id: id,
+            username: getData.username,
+            post: data
+        })
+        // // getData.post = data
+        // await this.postsData.update(getData.post, data)
+        // // await getManager().save(getData)
+        // // console.log(getData)
+        // // console.log(data)
+        // await this.postsData.save(getData)
         return 'updated'
     }
 
