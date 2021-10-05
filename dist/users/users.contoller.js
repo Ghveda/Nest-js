@@ -23,18 +23,21 @@ let UsersController = class UsersController {
         this.userService = userService;
         this.jwtService = jwtService;
     }
-    async getPostMethod(data) {
-        await this.userService.createAccount(data);
+    async registration(data) {
+        await this.userService.createAccount({
+            username: data.username,
+            password: await bcrypt.hash(data.password, 10)
+        });
         const user = await this.userService.findAccount({ username: data.username });
         const jwt = await this.jwtService.signAsync({ data: user.username });
         return jwt;
     }
-    async getSignInMethod(username, password) {
-        const user = await this.userService.findAccount({ username: username });
+    async login(data) {
+        const user = await this.userService.findAccount({ username: data.username });
         if (!user) {
             throw new common_1.BadRequestException('invalid credentials');
         }
-        if (await bcrypt.compare(password, user.password)) {
+        if (await bcrypt.compare(await bcrypt.hash(data.password, 10), user.password)) {
             throw new common_1.BadRequestException('password is a problem');
         }
         const jwt = await this.jwtService.signAsync({ data: user.username });
@@ -49,17 +52,16 @@ __decorate([
     (0, common_1.Post)('/registration'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [users_data_1.dataCreate]),
+    __metadata("design:paramtypes", [users_data_1.userData]),
     __metadata("design:returntype", Promise)
-], UsersController.prototype, "getPostMethod", null);
+], UsersController.prototype, "registration", null);
 __decorate([
     (0, common_1.Post)('/signin'),
-    __param(0, (0, common_1.Body)('username')),
-    __param(1, (0, common_1.Body)('password')),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [users_data_1.userData]),
     __metadata("design:returntype", Promise)
-], UsersController.prototype, "getSignInMethod", null);
+], UsersController.prototype, "login", null);
 __decorate([
     (0, common_1.Post)('/allUsers'),
     __metadata("design:type", Function),

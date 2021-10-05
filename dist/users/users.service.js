@@ -26,7 +26,7 @@ let UsersService = class UsersService {
         const addData = async () => {
             user.username = data.username;
             user.password = data.password;
-            await (0, typeorm_1.getManager)().save(user);
+            await this.usersRepository.save(user);
         };
         return addData();
     }

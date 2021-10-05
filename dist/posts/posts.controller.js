@@ -20,18 +20,18 @@ let PostsController = class PostsController {
         this.postService = postService;
     }
     async createPost(username, post) {
-        const data = await this.postService.createPostsService({ username: username, post: post });
+        const data = await this.postService.createPosts({ username: username, post: post });
         return data;
     }
     async getData() {
-        return await this.postService.getAllData();
+        return await this.postService.getAll();
     }
     async deleteData(id) {
         console.log(id);
-        return await this.postService.deleteSomeData(id);
+        return await this.postService.deletePost(id);
     }
     async updateData(id, data) {
-        return await this.postService.updateData(id, data);
+        return await this.postService.updatePost(id, data);
     }
 };
 __decorate([

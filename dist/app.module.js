@@ -30,7 +30,7 @@ AppModule = __decorate([
                 port: 3306,
                 username: 'root',
                 password: process.env.DATA_BASE_KEY,
-                database: 'testapp',
+                database: "database",
                 autoLoadEntities: true,
                 synchronize: true,
                 entities: [

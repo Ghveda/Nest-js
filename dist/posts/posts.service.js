@@ -18,10 +18,10 @@ const typeorm_1 = require("@nestjs/typeorm");
 const posts_entity_1 = require("./posts.entity");
 const typeorm_2 = require("typeorm");
 let PostsService = class PostsService {
-    constructor(postsData) {
-        this.postsData = postsData;
+    constructor(postsEntity) {
+        this.postsEntity = postsEntity;
     }
-    async createPostsService(data) {
+    async createPosts(data) {
         const post = new posts_entity_1.Posts();
         const createPost = async () => {
             post.username = data.username;
@@ -30,19 +30,18 @@ let PostsService = class PostsService {
         };
         return createPost();
     }
-    async getAllData() {
-        const data = await this.postsData.find();
+    async getAll() {
+        const data = await this.postsEntity.find();
         return data;
     }
-    async deleteSomeData(id) {
-        await this.postsData.delete(id);
+    async deletePost(id) {
+        await this.postsEntity.delete(id);
         return 'Deleted';
     }
-    async updateData(id, data) {
-        const getData = await this.postsData.findOne(id);
-        console.log(getData);
-        getData.post = data;
-        console.log(data);
+    async updatePost(id, data) {
+        const post = await this.postsEntity.findOne(id);
+        post.post = data;
+        return await this.postsEntity.save(post);
     }
 };
 PostsService = __decorate([
