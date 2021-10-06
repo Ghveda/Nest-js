@@ -27,7 +27,6 @@ let PostsController = class PostsController {
         return await this.postService.getAll();
     }
     async deleteData(id) {
-        console.log(id);
         return await this.postService.deletePost(id);
     }
     async updateData(id, data) {

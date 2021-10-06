@@ -18,6 +18,7 @@ export class UsersService {
             user.password = data.password;
             await this.usersRepository.save(user);
         }
+        
 
         return addData();
     }
