@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import {InjectRepository} from "@nestjs/typeorm";
-import {Posts} from "./posts.entity";
-import {getManager, Repository} from "typeorm";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Posts } from "./posts.entity";
+import { getManager, Repository } from "typeorm";
 
 @Injectable()
 export class PostsService {
     constructor(
         @InjectRepository(Posts) private postsEntity: Repository<Posts>
-    ) {}
+    ) { }
 
-    async createPosts(data){
+    async createPosts(data) {
         const post = new Posts();
-        const createPost = async ()=>{
+        const createPost = async () => {
             post.username = data.username;
             post.post = data.post;
             await getManager().save(post)
@@ -19,20 +19,22 @@ export class PostsService {
         return createPost()
     }
 
-    async getAll(){
+
+    async getAll() {
         const data = await this.postsEntity.find();
         return data
     }
 
-    async deletePost(id){
+
+    async deletePost(id) {
         await this.postsEntity.delete(id);
         return 'Deleted';
     }
 
-    async updatePost(id, data){
+
+    async updatePost(id, data) {
         const post = await this.postsEntity.findOne(id);
         post.post = data;
         return await this.postsEntity.save(post)
     }
-
 }

@@ -16,36 +16,32 @@ exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const users_data_1 = require("./users.data");
-const jwt_1 = require("@nestjs/jwt");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 let UsersController = class UsersController {
-    constructor(userService, jwtService) {
+    constructor(userService) {
         this.userService = userService;
-        this.jwtService = jwtService;
     }
     async registration(data) {
-        await this.userService.createAccount({
+        const register = this.userService.createAccount({
             username: data.username,
             password: await bcrypt.hash(data.password, 10)
         });
-        const user = await this.userService.findAccount({ username: data.username });
-        const jwt = await this.jwtService.signAsync({ data: user.username });
-        return jwt;
+        return register;
     }
     async login(data) {
-        const user = await this.userService.findAccount({ username: data.username });
-        if (!user) {
-            throw new common_1.BadRequestException('invalid credentials');
-        }
-        if (await bcrypt.compare(await bcrypt.hash(data.password, 10), user.password)) {
-            throw new common_1.BadRequestException('password is a problem');
-        }
-        const jwt = await this.jwtService.signAsync({ data: user.username });
-        return jwt;
+        const user = await this.userService.findAccount({
+            username: data.username,
+            password: data.password
+        });
+        return user;
     }
     getAll() {
         const users = this.userService.getAllUsers();
         return users;
+    }
+    getToken(token) {
+        const match = this.userService.getTokenMethod(token);
+        return match;
     }
 };
 __decorate([
@@ -68,10 +64,16 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "getAll", null);
+__decorate([
+    (0, common_1.Post)('/token'),
+    __param(0, (0, common_1.Body)('token')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "getToken", null);
 UsersController = __decorate([
     (0, common_1.Controller)('/users'),
-    __metadata("design:paramtypes", [users_service_1.UsersService,
-        jwt_1.JwtService])
+    __metadata("design:paramtypes", [users_service_1.UsersService])
 ], UsersController);
 exports.UsersController = UsersController;
 //# sourceMappingURL=users.contoller.js.map

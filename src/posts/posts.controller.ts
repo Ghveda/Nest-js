@@ -18,15 +18,18 @@ export class PostsController {
         return data
     }
 
+
     @Post('/data')
     async getData() {
         return await this.postService.getAll()
     }
 
+
     @Post('/delete')
     async deleteData(@Body('id') id: number) {
         return await this.postService.deletePost(id);
     }
+
 
     @Post('/update')
     async updateData(
@@ -35,6 +38,4 @@ export class PostsController {
     ) {
         return await this.postService.updatePost(id, data);
     }
-
-
 }

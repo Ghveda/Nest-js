@@ -1,53 +1,50 @@
 import { Controller, Post, Body, BadRequestException } from "@nestjs/common";
 import { UsersService } from './users.service';
 import { userData } from './users.data';
-import { JwtService } from "@nestjs/jwt";
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 
 @Controller('/users')
 export class UsersController {
     constructor(
-        private userService: UsersService,
-        private jwtService: JwtService
+        private userService: UsersService
     ) { }
 
     @Post('/registration')
     async registration(@Body() data: userData) {
-        await this.userService.createAccount({
+        const register = this.userService.createAccount({
             username: data.username,
             password: await bcrypt.hash(data.password, 10)
         })
 
-        const user = await this.userService.findAccount({ username: data.username })
-        const jwt = await this.jwtService.signAsync({ data: user.username })
-
-        return jwt
+        return register;
     }
 
 
     @Post('/signin')
     async login(@Body() data: userData
     ) {
-        const user = await this.userService.findAccount({ username: data.username })
-        if (!user) {
-            throw new BadRequestException('invalid credentials');
-        }
+        const user = await this.userService.findAccount(
+            {
+                username: data.username,
+                password: data.password
+            })
 
-        if (await bcrypt.compare(await bcrypt.hash(data.password, 10), user.password)) {
-            throw new BadRequestException('password is a problem');
-        }
-
-        const jwt = await this.jwtService.signAsync({ data: user.username });
-
-        return jwt
+        return user;
     }
 
 
     @Post('/allUsers')
     getAll() {
         const users = this.userService.getAllUsers();
-        return users
+        return users;
+    }
+
+
+    @Post('/token')
+    getToken(@Body('token') token: string) {
+        const match = this.userService.getTokenMethod(token);
+        return match;
     }
 }
 
