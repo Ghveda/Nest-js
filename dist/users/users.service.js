@@ -39,7 +39,8 @@ let UsersService = class UsersService {
         const jwt = await this.jwtService.signAsync({ data: findUser.username });
         return {
             msg: 'Acount is created',
-            token: jwt
+            token: jwt,
+            username: findUser.username
         };
     }
     async findAccount(data) {
@@ -54,7 +55,8 @@ let UsersService = class UsersService {
         const jwt = await this.jwtService.signAsync({ data: user.username });
         return {
             msg: "successful login",
-            token: jwt
+            token: jwt,
+            username: user.username
         };
     }
     async getAllUsers() {

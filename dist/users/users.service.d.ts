@@ -8,10 +8,12 @@ export declare class UsersService {
     createAccount(data: any): Promise<{
         msg: string;
         token: string;
+        username: string;
     }>;
     findAccount(data: any): Promise<{
         msg: string;
         token: string;
+        username: string;
     }>;
     getAllUsers(): Promise<User[]>;
     getTokenMethod(token: any): Promise<{

@@ -34,7 +34,8 @@ export class UsersService {
 
         return {
             msg: 'Acount is created',
-            token: jwt
+            token: jwt,
+            username: findUser.username
         }
     }
 
@@ -56,7 +57,8 @@ export class UsersService {
 
         return {
             msg: "successful login",
-            token: jwt
+            token: jwt,
+            username: user.username
         }
     }
 

@@ -6,10 +6,12 @@ export declare class UsersController {
     registration(data: userData): Promise<{
         msg: string;
         token: string;
+        username: string;
     }>;
     login(data: userData): Promise<{
         msg: string;
         token: string;
+        username: string;
     }>;
     getAll(): Promise<import("./users.entity").User[]>;
     getToken(token: string): Promise<{
